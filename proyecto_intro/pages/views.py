@@ -7,3 +7,5 @@ def decir_hola(req):
     return render(req, 'algo.html')
 
 #Podemos asignarle una Url a esta view -> vease urls.py
+def reciclaje(req):
+    return render(req, 'herramienta1.html' )

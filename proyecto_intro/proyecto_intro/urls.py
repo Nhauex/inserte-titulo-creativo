@@ -21,5 +21,6 @@ from pages import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.decir_hola, name='home')
+    path('', views.decir_hola, name='home'),
+    path('paginareciclaje.html', views.reciclaje, name='herramienta1')
 ]
