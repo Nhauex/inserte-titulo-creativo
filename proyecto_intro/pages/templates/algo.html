@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Inicio</h3>
+<h3>Usuario</h3>
 {% if request.user.is_authenticated %}
 <hr>
 <h4>
     {{ user.username | upper}}, bienvenido
 </h4>
+
+<h2>Sus Creditos: 0</h2>
+
+<h1>Racha de registros: 0</h1>
 {% endif%}
 {% endblock %}
