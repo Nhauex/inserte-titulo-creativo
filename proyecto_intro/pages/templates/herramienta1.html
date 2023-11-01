@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <h1>Reciclaje</h1>
+
 <html>
 <head>
     <title>Pagina de reciclaje</title>
 </head>
 <body>
     <h1> Reciclaje </h1>
-
         
     
         {% csrf_token %}
@@ -29,4 +30,7 @@
     
         <input type="submit" value="Guardar cambios"> 
     </form>
+
+</body>
+</html>
 {% endblock %}
