@@ -1,24 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<<<<<<< HEAD
     <h1>Reciclaje</h1>
-<!--
-=======
+
 <html>
 <head>
     <title>Pagina de reciclaje</title>
 </head>
 <body>
     <h1> Reciclaje </h1>
-    <p></p>
->>>>>>> 11c7fcaf7f41654ed6b2bb0c61bacfd1c7d4828d
-    <input type="checkbox" id="plasticos" name="plasticos"> <label for="plasticos">Plasticos</label><br>
-    <input type="checkbox" id="latas" name="latas"> <label for="latas">Latas</label><br>
-    <input type="checkbox" id="carton" name="carton"> <label for="carton">Cartón</label><br>
-    <input type="checkbox" id="papel" name="papel"> <label for="papel">Papel</label><br> -->
-        
-    
+
         {% csrf_token %}
         <form method="POST">
             
@@ -38,4 +29,7 @@
     
         <input type="submit" value="Guardar cambios"> 
     </form>
+
+</body>
+</html>
 {% endblock %}
