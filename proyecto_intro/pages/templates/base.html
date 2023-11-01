@@ -6,6 +6,8 @@
     <title>Aplicacion</title>
 </head>
 <body>
+    
+ 
     <h2>Inicio</h2>
     <ul>
         <li><a href={% url 'home' %}>Inicio</a></li>
@@ -17,7 +19,6 @@
             <li><a href={% url 'login' %}> Ingresar </a></li>
         {% endif%}
     </ul>
-
-    {% block content %}{% endblock %}
+ {% block content %} {% endblock %}
 </body>
 </html>

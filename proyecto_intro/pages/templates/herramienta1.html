@@ -1,19 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<html>
-<head>
-    <title>Pagina de reciclaje</title>
-</head>
-<body>
-    <h1> Reciclaje </h1>
-
+    <h1>Reciclaje</h1>
+<!--
     <input type="checkbox" id="plasticos" name="plasticos"> <label for="plasticos">Plasticos</label><br>
     <input type="checkbox" id="latas" name="latas"> <label for="latas">Latas</label><br>
     <input type="checkbox" id="carton" name="carton"> <label for="carton">Cartón</label><br>
-    <input type="checkbox" id="pepel" name="papel"> <label for="papel">Papel</label><br>
-
-    </body>
-</html>
-
+    <input type="checkbox" id="papel" name="papel"> <label for="papel">Papel</label><br> -->
+        
+    
+        {% csrf_token %}
+        <form method="POST">
+            
+            {% csrf_token %}
+    
+            <input type="checkbox" id="plasticos" name="plasticos" {% if 'Plasticos' in elementos and elementos.Platicos.completada %}checked{% endif %}>
+            <label for="plasticos" style="text-transform: capitalize;">Plasticos</label><br>
+    
+            <input type="checkbox" id="latas" name="latas" {% if 'Latas' in elementos and elementos.Latas.completada %}checked{% endif %}>
+            <label for="latas" style="text-transform: capitalize;">Latas</label><br>
+    
+            <input type="checkbox" id="carton" name="carton" {% if 'Cartón' in elementos and elementos.Cartón.completada %}checked{% endif %}>
+            <label for="carton" style="text-transform: capitalize;">Cartón</label><br>
+    
+            <input type="checkbox" id="papel" name="Papel" {% if 'Papel' in elementos and elementos.Papel.completada %}checked{% endif %}>
+            <label for="papel" style="text-transform: capitalize;">Papel</label><br>
+    
+        <input type="submit" value="Guardar cambios"> 
+    </form>
 {% endblock %}

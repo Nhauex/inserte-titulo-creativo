@@ -20,10 +20,8 @@ from django.urls import path, include
 from pages import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.decir_hola, name='home'),
-    path('herramienta1/', views.reciclaje, name='herramienta1'),
-    path('login/', views.login, name='login'),
-    path('accounts/', include('django.contrib.auth.urls')),
-    path('logout/', views.exit, name='exit')
-]
+   path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),  # URLs de autenticación de Django
+    path('', views.home, name='home'),  # Vista de inicio de la aplicación
+    path('pages/', include('pages.urls')),  # URLs de la aplicación 'pages'
+    ]
