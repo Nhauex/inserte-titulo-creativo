@@ -12,15 +12,14 @@ def home(request):
 def decir_hola(req):
     return render(req, 'algo.html')
 
-#@login_required
+#en vez de dejar el login_required como comentario, creense un superusuario
+#el comando es 'python manage.py createsuperuser'
+#que si me dejan la wea comentada no voy a saberlo
+@login_required
 def reciclaje(req):
     elementos = ChecklistItem.objects.all()
     print(elementos)
     return render(req, 'herramienta1.html', {'elementos': elementos})
-
-
-def login(req):
-    return render(req, 'login.html')
 
 def exit(req):
     logout(req)
