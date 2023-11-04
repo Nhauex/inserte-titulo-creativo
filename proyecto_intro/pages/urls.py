@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('herramienta1/', views.reciclaje, name='herramienta1'),
     path('logout/', views.exit, name='exit'),
+    path('register/', views.register, name='register')
 ]
 
     
