@@ -22,14 +22,20 @@
                   <li class="nav-item">
                     <a class="nav-link" href={% url 'herramienta1' %}>Herramienta</a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href={% url 'info' %}>Informacion Reciclaje</a>
+                  </li>  
                   {% if request.user.is_authenticated %}
                   <li class="nav-item">
                     <a class="nav-link" href={% url 'exit' %}>Salir</a>
+                  </li>
                   {% else %}
                   <li class="nav-item">
                     <a class="nav-link" href={% url 'login' %}>Ingresar</a>
+                  </li>
                   <li class="nav-item">
                     <a class="nav-link" href={% url 'register' %}>Registrarse</a>
+                  </li>
                   {% endif%}
 
                 </form>
@@ -38,8 +44,6 @@
           </nav>
 
     </div>
- 
-    <h2>Inicio</h2>
  {% block content %} {% endblock %}
 </body>
 </html>

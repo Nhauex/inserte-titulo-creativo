@@ -7,11 +7,14 @@ from .forms import CustomUserCreationForm
 #Las funciones view reciben una request (pedido) y dan una  response (respuesta)
 #Ej (renderiza html, el html lo encuentran en la carpeta templates):
 
-def home(request):
+def base(request):
     return render(request, 'base.html')
 
-def decir_hola(request):
+def home(request):
     return render(request, 'algo.html')
+
+def info(request):
+    return render(request, 'manerasdereciclar.html')
 
 #en vez de dejar el login_required como comentario, creense un superusuario
 #el comando es 'python manage.py createsuperuser'
