@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<head>
+{% comment %} <head>
     <title>¿Cómo podemos reciclar?</title>
 </head>
 <body>
@@ -37,4 +37,28 @@
     <h3>Información extrahída de The Nature Conservancy. 
         URL: https://www.nature.org/es-us/que-hacemos/nuestras-prioridades/ciudades-saludables/como-reducir-la-basura/</h3>
     </body>
-{% endblock %}
+{% endblock %} {% endcomment %}
+
+
+<html>
+<head>
+    <title>{{ titulo }}</title>
+</head>
+<body>
+    <h1>{{titulo }}</h1>
+    <h2>{{manera1 }}</h2>
+    <img src="{% static imagen1 %}" alt="Imagen 1">
+    <p class="mi-pagina-p">{{ mp1 }}</p>
+    
+    <h2>{{manera2 }}</h2>
+    <p class="mi-pagina-p">{{ mp2 }}</p>
+
+    <h2>{{manera3 }}</h2>
+    <img src="{% static imagen2 %}" alt="Imagen 2">
+    <p class="mi-pagina-p">{{ mp3 }}</p>
+
+    <h3>{{creditos }}</h3>
+    {% endblock %}
+
+</body>
+</html>
