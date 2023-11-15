@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
-from .models import ChecklistItem
+from .models import ChecklistItem,UserProfile
 from .forms import CustomUserCreationForm
 from .models import News,Category,Comment
 from django.contrib import messages
@@ -13,7 +13,9 @@ def base(request):
     return render(request, 'base.html')
 
 def home(request):
-    return render(request, 'algo.html')
+    user=request.user
+    user_profile, created = UserProfile.objects.get_or_create(user=user)  # Obtener el perfil del usuario actual
+    return render(request, 'algo.html', {'user_profile': user_profile})
 
 def info(request):
     # Crear un diccionario de contexto con las variables y valores deseados
@@ -101,3 +103,4 @@ def detail(request,id):
         'related_news':rel_news,
         'comments':comments
     })
+

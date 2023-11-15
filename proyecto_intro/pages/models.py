@@ -1,5 +1,7 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 # Create your models here.
 # probando D:
 
@@ -44,3 +46,24 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.comment
+    
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    puntos = models.IntegerField(default=0)  # Aquí se añade una variable de tipo entero (en este caso, "age")
+
+    # Otros campos adicionales que desees agregar
+
+    def __str__(self):
+        return self.user.username
+
+# Este receptor se activará cuando se cree un nuevo User
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+# Este receptor se activará cuando se guarde un User
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.userprofile.save()

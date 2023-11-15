@@ -3,15 +3,12 @@
 {% block content %}
 <h3>Inicio</h3>
 {% if request.user.is_authenticated %}
-<hr>
-<h4>
-    {{ user.first_name | upper}}, bienvenido
-</h4>
-<h5>
-    Sus Puntos: 0
-</h5>
-<h5>
-    Racha de registros: 0
+<body>
+    <h1>Bienvenido {{ user_profile.user.first_name }}</h1>
+    <p>Nombre de usuario: {{ user_profile.user.username }}</p>
+    <p>Sus Puntos: {{ user_profile.puntos }}</p>
+    
+</body>
 </h5>
 {% endif%}
 {% endblock %}
