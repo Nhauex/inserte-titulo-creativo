@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.conf import settings
+from django.conf.urls.static import static
 from pages import views
 
 urlpatterns = [
@@ -24,4 +25,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),  # URLs de autenticación de Django
     path('', views.home, name='home'),  # Vista de inicio de la aplicación
     path('pages/', include('pages.urls')),  # URLs de la aplicación 'pages'
-    ]
+    path('detail/<int:id>/',views.detail,name='detail'),
+    path('all-news/',views.all_news,name='all-news'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

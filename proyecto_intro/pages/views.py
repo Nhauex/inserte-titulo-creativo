@@ -3,6 +3,8 @@ from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import ChecklistItem
 from .forms import CustomUserCreationForm
+from .models import News,Category,Comment
+from django.contrib import messages
 # Create your views here.
 #Las funciones view reciben una request (pedido) y dan una  response (respuesta)
 #Ej (renderiza html, el html lo encuentran en la carpeta templates):
@@ -60,3 +62,42 @@ def register(request):
 
     return render(request, 'registration/register.html', data)
 
+def xd(request):
+    first_news=News.objects.first()
+    three_news=News.objects.all()[1:4]
+    three_categories=Category.objects.all()[0:3]
+    return render(request,'xd.html',{
+        'first_news':first_news,
+        'three_news':three_news,
+        'three_categories':three_categories
+    })
+
+# All News
+def all_news(request):
+    all_news=News.objects.all()
+    return render(request,'all-news.html',{
+        'all_news':all_news
+    })
+
+# Detail Page
+def detail(request,id):
+    news=News.objects.get(pk=id)
+    if request.method=='POST':
+        name=request.POST['name']
+        email=request.POST['email']
+        comment=request.POST['message']
+        Comment.objects.create(
+            news=news,
+            name=name,
+            email=email,
+            comment=comment
+        )
+        messages.success(request,'Comment submitted but in moderation mode.')
+    category=Category.objects.get(id=news.category.id)
+    rel_news=News.objects.filter(category=category).exclude(id=id)
+    comments=Comment.objects.filter(news=news,status=True).order_by('-id')
+    return render(request,'detail.html',{
+        'news':news,
+        'related_news':rel_news,
+        'comments':comments
+    })
