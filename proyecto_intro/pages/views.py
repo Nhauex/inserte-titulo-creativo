@@ -13,9 +13,7 @@ def base(request):
     return render(request, 'base.html')
 
 def home(request):
-    user=request.user
-    user_profile, created = UserProfile.objects.get_or_create(user=user)  # Obtener el perfil del usuario actual
-    return render(request, 'algo.html', {'user_profile': user_profile})
+    return render(request, 'algo.html')
 
 def info(request):
     # Crear un diccionario de contexto con las variables y valores deseados
@@ -104,3 +102,7 @@ def detail(request,id):
         'comments':comments
     })
 
+def profile(request):
+    user=request.user
+    user_profile, created = UserProfile.objects.get_or_create(user=user)  # Obtener el perfil del usuario actual
+    return render(request, 'profile.html', {'user_profile': user_profile})

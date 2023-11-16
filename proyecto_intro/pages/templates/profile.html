@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Bienvenido {{ user_profile.user.first_name }}</h1>
+<p>Nombre de usuario: {{ user_profile.user.username }}</p>
+<p>Sus Puntos: {{ user_profile.puntos }}</p>
+
+{% endblock %}
