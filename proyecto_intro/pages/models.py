@@ -51,11 +51,29 @@ class Comment(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     puntos = models.IntegerField(default=0)  # Aquí se añade una variable de tipo entero (en este caso, "age")
-
-    # Otros campos adicionales que desees agregar
+    read_news_titles = models.TextField(blank=True, null=True)  # Relación muchos a muchos con el modelo News para almacenar noticias leídas
 
     def __str__(self):
         return self.user.username
+    
+    def add_read_news_title(self, news_title):
+        if self.read_news_titles:
+            titles_list = self.read_news_titles.split(',')
+            if news_title not in titles_list:
+                titles_list.append(news_title)
+                self.read_news_titles = ','.join(titles_list)
+                self.puntos += 1
+                self.save()  # Guardar el UserProfile después de actualizar los títulos
+        else:
+            self.read_news_titles = news_title
+            self.save()  # Guardar el UserProfile después de establecer el primer título
+
+    def get_read_news_titles(self):
+        if self.read_news_titles:
+            return self.read_news_titles.split(',')
+        else:
+            return []
+
 
 # Este receptor se activará cuando se cree un nuevo User
 @receiver(post_save, sender=User)
@@ -67,3 +85,4 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
+

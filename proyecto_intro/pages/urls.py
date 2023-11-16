@@ -13,7 +13,8 @@ urlpatterns = [
     path('xd/',views.xd,name='xd'),
     path('all-news/',views.all_news,name='all-news'),
     path('detail/<int:id>/',views.detail,name='detail'),
-    path('profile/',views.profile, name='profile')
+    path('profile/',views.profile, name='profile'),
+    path('mark-as-read/<str:news_title>/', views.mark_news_as_read, name='marcar_como_leida'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
     

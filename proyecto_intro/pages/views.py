@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import ChecklistItem,UserProfile
 from .forms import CustomUserCreationForm
 from .models import News,Category,Comment
 from django.contrib import messages
+from django.urls import reverse
 # Create your views here.
 #Las funciones view reciben una request (pedido) y dan una  response (respuesta)
 #Ej (renderiza html, el html lo encuentran en la carpeta templates):
@@ -106,3 +107,15 @@ def profile(request):
     user=request.user
     user_profile, created = UserProfile.objects.get_or_create(user=user)  # Obtener el perfil del usuario actual
     return render(request, 'profile.html', {'user_profile': user_profile})
+
+def mark_news_as_read(request, news_title):
+    # Obtener el usuario actual
+    user = request.user
+
+    # Obtener el perfil del usuario actual
+    user_profile, created = UserProfile.objects.get_or_create(user=user)
+
+    # Agregar la noticia leída al UserProfile si aún no está presente
+    user_profile.add_read_news_title(news_title)
+
+    return redirect(request.META.get('HTTP_REFERER'))
