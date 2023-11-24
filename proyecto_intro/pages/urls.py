@@ -13,6 +13,7 @@ urlpatterns = [
     path('xd/',views.xd,name='xd'),
     path('all-news/',views.all_news,name='all-news'),
     path('detail/<int:id>/',views.detail,name='detail'),
+    path('tabla/', views.tabla, name='tabla'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
     

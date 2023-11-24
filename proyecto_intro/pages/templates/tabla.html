@@ -1,0 +1,67 @@
+ {% extends 'base.html' %}
+{% comment %}
+{% block content %}
+
+<head>
+    <title>tabla</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Elemento</th>
+        {% for fecha in fechas %}
+            <th>{{ fecha }}</th>
+        {% endfor %}
+    </tr>
+    {% for fila in tabla %}
+    <tr>
+            <td>{{ fila.elemento }}</td>
+            {% for fecha in fechas %}
+                <td>{{ fila|getfecha }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        <tr>
+        <td>Total día</td>
+        {% for fecha in fechas %}
+            <td>{{ total_dia|getfecha }}</td>
+    {% endfor %}
+    </tr>
+
+</table>
+</body>
+{% endblock %} {% endcomment %}
+
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    <title>tabla</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Elemento</th>
+        {% for fecha in fechas %}
+            <th>{{ fecha }}</th>
+        {% endfor %}
+    </tr>
+    {% for fila in tabla %}
+        <tr>
+            <td>{{ fila.elemento }}</td>
+            {% for fecha in fechas %}
+                <td>{% if fila|getfecha:fecha %}X{% endif %}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    <tr>
+        <td>Total día</td>
+        {% for fecha in fechas %}
+            <td>{% if total_dia|getfecha:fecha %}X{% endif %}</td>
+        {% endfor %}
+    </tr>
+</table>
+</body>
+{% endblock %}
+
+

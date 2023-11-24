@@ -1,20 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% load custom_filters %}
     <h1>Reciclaje</h1>
 
-<html>
-<head>
-    <title>Pagina de reciclaje</title>
-</head>
-<body>
+    <html>
+    <head>
+        <title>Pagina de reciclaje</title>
+    </head>
+    <body>
 
         {% csrf_token %}
         <form method="POST">
             
             {% csrf_token %}
     
-            <input type="checkbox" id="plasticos" name="plasticos" {% if 'Plasticos' in elementos and elementos.Platicos.completada %}checked{% endif %}>
+            <input type="checkbox" id="plasticos" name="plasticos" {% if 'Plasticos' in elementos and elementos.Plasticos.completada %}checked{% endif %}>
             <label for="plasticos" style="text-transform: capitalize;">Plasticos</label><br>
     
             <input type="checkbox" id="latas" name="latas" {% if 'Latas' in elementos and elementos.Latas.completada %}checked{% endif %}>
@@ -23,12 +24,15 @@
             <input type="checkbox" id="carton" name="carton" {% if 'Cartón' in elementos and elementos.Cartón.completada %}checked{% endif %}>
             <label for="carton" style="text-transform: capitalize;">Cartón</label><br>
     
-            <input type="checkbox" id="papel" name="Papel" {% if 'Papel' in elementos and elementos.Papel.completada %}checked{% endif %}>
+            <input type="checkbox" id="papel" name="papel" {% if 'Papel' in elementos and elementos.Papel.completada %}checked{% endif %}>
             <label for="papel" style="text-transform: capitalize;">Papel</label><br>
-    
-        <input type="submit" value="Guardar cambios"> 
-    </form>
+            
+        
+            <input type="submit" value="Guardar cambios"> 
+        </form>
 
-</body>
-</html>
+    <a href="{% url 'tabla' %}">Ver Tabla</a>
+    </body>
+    </html>
 {% endblock %}
+

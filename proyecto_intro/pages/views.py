@@ -1,10 +1,20 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import ChecklistItem
 from .forms import CustomUserCreationForm
 from .models import News,Category,Comment
 from django.contrib import messages
+
+from datetime import date
+from .forms import ChecklistItemForm
+from datetime import date, timedelta
+from django.db.models import Count
+from django.db.models import Sum, Case, When, Value, BooleanField
+from django.shortcuts import render
+from django.http import HttpResponse
+from .custom_filters import getfecha 
+
 # Create your views here.
 #Las funciones view reciben una request (pedido) y dan una  response (respuesta)
 #Ej (renderiza html, el html lo encuentran en la carpeta templates):
@@ -31,14 +41,65 @@ def info(request):
     }
     return render(request, 'manerasdereciclar.html', context)
 
+
+from django import template
+
+register = template.Library()
+
+def get(d, k):
+    return d.get(k, None)
+
 #en vez de dejar el login_required como comentario, creense un superusuario
 #el comando es 'python manage.py createsuperuser'
 #que si me dejan la wea comentada no voy a saberlo
 @login_required
-def reciclaje(request):
-    elementos = ChecklistItem.objects.all()
-    print(elementos)
-    return render(request, 'herramienta1.html', {'elementos': elementos})
+def reciclaje(request, item_id=None):
+    checklist_item = get_object_or_404(ChecklistItem, pk=item_id) if item_id else None
+
+    if request.method == 'POST':
+        form = ChecklistItemForm(request.POST)
+        print(form)
+
+        if form.is_valid():
+            checklist_item = form.save(commit=False)
+            checklist_item.fecha = date.today()  # Establecer la fecha actual
+            checklist_item.save()
+            return redirect('herramienta1')  # Redirige a la misma vista o a donde desees
+    else:
+        form = ChecklistItemForm()
+
+    # Obtener todos los elementos del día actual
+    elementos_del_dia = ChecklistItem.objects.filter(fecha=date.today())
+
+    return render(request, 'herramienta1.html', {'form': form, 'elementos_del_dia': elementos_del_dia})
+
+
+
+def tabla(request):
+    # Obtener todos los elementos completados agrupados por fecha
+    elementos = ChecklistItem.objects.values_list('elementos', flat=True).distinct()
+
+    # Obtener todos los elementos completados agrupados por fecha y elemento
+    elementos_por_fecha = ChecklistItem.objects.values('fecha', 'elementos').annotate(
+        completado=Sum(Case(When(completada=True, then=Value(1)), default=Value(0), output_field=BooleanField()))
+    )
+
+    # Crear una estructura de datos para la tabla
+    tabla = []
+    fechas = [date.today() - timedelta(days=i) for i in range(7)]  # Obtener las fechas de los últimos 7 días
+
+    for elemento in elementos:
+        fila = {'elemento': elemento}
+        for fecha in fechas:
+            elemento_fecha = next((e['completado'] for e in elementos_por_fecha if e['fecha'] == fecha and e['elementos'] == elemento), False)
+            fila[fecha] = 'X' if elemento_fecha else ''
+        tabla.append(fila)
+
+    # Calcular el total para cada día
+    total_dia = [sum(1 if fila[fecha] == 'X' else 0 for fila in tabla) for fecha in fechas]
+
+    return render(request, "tabla.html", {'tabla': tabla, 'fechas': fechas, 'total_dia': total_dia})
+
 
 def exit(request):
     logout(request)
@@ -101,3 +162,4 @@ def detail(request,id):
         'related_news':rel_news,
         'comments':comments
     })
+
