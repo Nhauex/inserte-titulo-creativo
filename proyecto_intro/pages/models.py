@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 # probando D:
 
 class ChecklistItem(models.Model):
+    user = models.CharField(max_length=50, null=True, blank=True)
     elementos = models.CharField(max_length=200)
     completada = models.BooleanField(default=False)
     fecha = models.DateField(auto_now=True)
@@ -50,8 +51,9 @@ class Comment(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    puntos = models.IntegerField(default=0)  # Aquí se añade una variable de tipo entero (en este caso, "age")
-    read_news_titles = models.TextField(blank=True, null=True)  # Relación muchos a muchos con el modelo News para almacenar noticias leídas
+    puntos = models.IntegerField(default=0)  # Aquí se añade una variable de tipo entero (en este caso, "puntos")
+    read_news_titles = models.TextField(blank=True, null=True)
+    checklist_items = models.ManyToManyField(ChecklistItem)
 
     def __str__(self):
         return self.user.username

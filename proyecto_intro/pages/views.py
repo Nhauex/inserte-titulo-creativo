@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import ChecklistItem,UserProfile
 from .forms import CustomUserCreationForm
 from .models import News,Category,Comment
 from django.contrib import messages
-from django.urls import reverse
+from django.http import HttpResponse
+from datetime import datetime
 # Create your views here.
 #Las funciones view reciben una request (pedido) y dan una  response (respuesta)
 #Ej (renderiza html, el html lo encuentran en la carpeta templates):
@@ -34,12 +35,28 @@ def info(request):
 
 #en vez de dejar el login_required como comentario, creense un superusuario
 #el comando es 'python manage.py createsuperuser'
-#que si me dejan la wea comentada no voy a saberlo
+#que si me dejan las cosas comentadas no voy a saberlo
 @login_required
 def reciclaje(request):
-    elementos = ChecklistItem.objects.all()
-    print(elementos)
-    return render(request, 'herramienta1.html', {'elementos': elementos})
+    if request.method == 'POST':
+        selected_items = request.POST.getlist('item')  # Get selected items from checkboxes
+        current_date = datetime.now().date()
+        user_profile = UserProfile.objects.get(user=request.user)
+
+        for item_name in selected_items:
+            #esto es WIP para el cooldown
+            existing_item = ChecklistItem.objects.filter(user=request.user.username, elementos=item_name, fecha=current_date).first
+
+
+
+            item = ChecklistItem.objects.create(user= request.user.username, elementos=item_name, fecha=current_date)
+            user_profile.checklist_items.add(item)
+            user_profile.puntos += 1
+            user_profile.save()
+
+        return HttpResponse('Reciclaje Registrado Correctamente y Puntos añadidos, vuelve mañana! <a href="/">Volver al inicio</a>')
+    
+    return render(request, 'herramienta1.html')
 
 def exit(request):
     logout(request)
