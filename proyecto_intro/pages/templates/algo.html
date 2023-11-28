@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
 {% load static %}
-<div style="text-align: center;">
-    <a href="https://imgur.com/lBoY76V"><img src="https://i.imgur.com/lBoY76V.png" title="source: imgur.com" /></a>
+<head>
+    {% comment %} <link rel="stylesheet" href="{% static 'styles.css' %}"> {% endcomment %}
+   
+    </head>
+<body>
+<div class="centrar">
+</br>
+<a class="nav-link button" href="{% url 'herramienta1' %}">Registro de reciclaje</a>
+</br>
+    <a class="nav-link button" href="{% url 'info' %}">Informacion Reciclaje</a>
+</br>
+    <a class="nav-link button" href="{% url 'xd' %}">Noticias</a>
 </div>
-</h5>
+</body>
+<div class="centrar">
 {% endblock %}
