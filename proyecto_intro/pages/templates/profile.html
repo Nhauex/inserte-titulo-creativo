@@ -2,7 +2,13 @@
 
 {% block content %}
 <h1>Bienvenido {{ user_profile.user.first_name }}</h1>
-<p>Nombre de usuario: {{ user_profile.user.username }}</p>
-<p>Sus Puntos: {{ user_profile.puntos }}</p>
-
+<h4>Nombre de usuario: {{ user_profile.user.username }}</h4>
+&nbsp
+<h2>Sus Puntos: {{ user_profile.puntos }}</h2>
+&nbsp
+&nbsp
+<h1>Registros de reciclaje:</h1>
+{%for item in checklistitem %}
+<p>{{ item.elementos }}    {{ item.fecha }} <input type="checkbox" checked="True" onclick="return false;"/></p>
+{% endfor %}
 {% endblock %}

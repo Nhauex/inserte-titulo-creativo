@@ -123,7 +123,8 @@ def detail(request,id):
 def profile(request):
     user=request.user
     user_profile, created = UserProfile.objects.get_or_create(user=user)  # Obtener el perfil del usuario actual
-    return render(request, 'profile.html', {'user_profile': user_profile})
+    checklistitem = user_profile.checklist_items.all()
+    return render(request, 'profile.html', {'user_profile': user_profile, 'checklistitem': checklistitem})
 
 def mark_news_as_read(request, news_title):
     # Obtener el usuario actual
