@@ -28,7 +28,7 @@ def info(request):
         "credito" : "Información extrahída de The Nature Conservancy. URL: https://www.nature.org/es-us/que-hacemos/nuestras-prioridades/ciudades-saludables/como-reducir-la-basura/",
         "mp1": "Probablemente, ya tienes una botella reutilizable, pero ¿la usas todo el tiempo? Pon esa botella reutilizable en circulación: ahorrarás dinero y reducirás la basura. Además, si llevas tu propia agua cuando sales de tu casa, comprarás menos bebidas más caras por la calle. Esto eliminará los contenedores de uso único en los que vienen. Si bien la mayoría de las latas y botellas pueden reciclarse, se necesita un montón de energía para producirlas, transportarlas a la planta embotelladora y luego a las tiendas.",
         "mp2" : "Al igual que las botellas reutilizables, seguramente tienes una bolsa de compras reutilizable, pero con frecuencia queda olvidada en casa. ¿Y si escribes bolsas arriba de todo de tu lista de compras como recordatorio? También puedes tenerlas siempre en el asiento trasero, así no se te olvidan. Muchas tiendas te harán un reembolso de 5 centavos por cada bolsa, así que, además de reducir tu consumo de bolsas de plástico de un solo uso, también ahorrarás unos centavos.",
-        "mp3" : "Siempre que sea posible, intenta no usar vasos de café, cubiertos, pajillas y servilletas descartables. Algunos negocios incluso te darán un descuento sobre tu café si llevas tu propia taza. En la oficina, ten un juego de vajilla, cubiertos, bol y taza quepuedas lavar y volver a usar. Evita completamente las pajillas o compra las reutilizables de metal. Recuerda: muchos de estos artículos están hechos de plástico, fueron transportados en un camión y terminarán en un vertedero una vez que los usamos solo una vez. Todo lo que podamos hacer para reducir nuestro consumo de estos productos contribuye a lograr un gran impacto. ",
+        "mp3" : "Siempre que sea posible, intenta no usar vasos de café, cubiertos, pajillas y servilletas descartables. Algunos negocios incluso te darán un descuento sobre tu café si llevas tu propia taza. En la oficina, ten un juego de vajilla, cubiertos, bol y taza que puedas lavar y volver a usar. Evita completamente las pajillas o compra las reutilizables de metal. Recuerda: muchos de estos artículos están hechos de plástico, fueron transportados en un camión y terminarán en un vertedero una vez que los usamos solo una vez. Todo lo que podamos hacer para reducir nuestro consumo de estos productos contribuye a lograr un gran impacto. ",
         "imagen2" : "https://aseca.com/wp-content/uploads/2020/06/Todo-reciclaje.png"
     }
     return render(request, 'manerasdereciclar.html', context)
@@ -38,10 +38,11 @@ def info(request):
 #que si me dejan las cosas comentadas no voy a saberlo
 @login_required
 def reciclaje(request):
+    user_profile = UserProfile.objects.get(user=request.user)
     if request.method == 'POST':
         selected_items = request.POST.getlist('item')  # Get selected items from checkboxes
         current_date = datetime.now().date()
-        user_profile = UserProfile.objects.get(user=request.user)
+        
 
         for item_name in selected_items:
             #esto es WIP para el cooldown
@@ -56,7 +57,7 @@ def reciclaje(request):
 
         return HttpResponse('Reciclaje Registrado Correctamente y Puntos añadidos, vuelve mañana! <a href="/">Volver al inicio</a>')
     
-    return render(request, 'herramienta1.html')
+    return render(request, 'herramienta1.html', {'user_profile': user_profile})
 
 def exit(request):
     logout(request)

@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Reciclaje</h1>
-
+<div style="text-align: center;">
+    <h1>Registra tu reciclaje:</h1>
+    <p>Hoy has reciclado:</p>
+</div>
 <html>
 <head>
     <title>Pagina de reciclaje</title>
 </head>
-<body>
+<div style="text-align: center;">
 
         {% csrf_token %}
         <form method="POST" action="{% url 'herramienta1' %}">
@@ -19,9 +21,11 @@
             <label><input type="checkbox" name="item" value="Cartón"> Cartón</label><br>
             <label><input type="checkbox" name="item" value="Papel"> Papel</label><br>
         
-            <button type="submit">Add Item(s)</button>
+            <button type="submit">Registrar</button>
         </form>
-
-</body>
+        &nbsp
+        &nbsp
+        <h2>Sus puntos actuales: {{ user_profile.puntos }}</h2>
+</div>
 </html>
 {% endblock %}
